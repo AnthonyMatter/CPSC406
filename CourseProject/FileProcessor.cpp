@@ -1,8 +1,18 @@
 #include "FileProcessor.h"
 
+
+/* ************************************************************************************************
+ * Member Function: analyzeNFA
+ * ------------------------------------------------------------------------------------------------
+ * Functionality: The input file is analyzed using string stream in order to isolate all states,
+ * start state, accept states, and then the transition function for the NFA.
+ * ------------------------------------------------------------------------------------------------
+ * Parameters/Data Types: This method takes in the name of the file that is executed in the 
+ * terminal.
+ * Return Value/Data Type: There is no return value since this is a void method.
+ * ************************************************************************************************/
 void FileProcessor::analyzeNFA(string fileName){
     inFS.open(fileName);
-    
 
     if(!inFS.is_open()){
         cout << "Cannont open: " << fileName << endl;
@@ -17,7 +27,7 @@ void FileProcessor::analyzeNFA(string fileName){
     ss.str(line);
     while(ss >> inputState){
         NFAState *NFA = new NFAState();
-        NFA->setState(inputState);
+        NFA->setState(inputState); // Stores a particular NFAState object's state
         states.push_back(NFA);
     }
     ss.clear();
@@ -37,7 +47,7 @@ void FileProcessor::analyzeNFA(string fileName){
     {
         if(states[i]->getState() == start)
         {
-            states[i]->startState = true;
+            states[i]->startState = true; // Sets particular NFAState object's start state to true
         }
     }
     ss.clear();
@@ -51,7 +61,7 @@ void FileProcessor::analyzeNFA(string fileName){
         {
             if(states[i]->getState() == inputState)
             {
-                states[i]->acceptState = true;
+                states[i]->acceptState = true; // Sets particular NFAState object's accept state to true
             }
         }
     }
@@ -62,15 +72,11 @@ void FileProcessor::analyzeNFA(string fileName){
     if(line == "BEGIN"){
         getline(file, line);
         while(line != "END"){
-            transfer.push_back(line);
-            getline(file, line);
+            transfer.push_back(line); // Pushes each line of the transition function on a vector<string>
+            getline(file, line); // Used to iterate through transition function until line equals END
         }
     }
 
-    t.createDFAStates(transfer, states, alphabet, start, states);
+    t.createDFAStates(transfer, states, alphabet, start);
 
-}
-
-void FileProcessor::writeDFA(){
-    
 }
