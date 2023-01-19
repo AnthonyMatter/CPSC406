@@ -20,7 +20,6 @@ class FileProcessor{
 
         NFAState nfa;
         Transition t;
-        //convertNFA converter;
         vector<NFAState*> states;
         vector<string> alphabet;
         vector<string> transfer;
